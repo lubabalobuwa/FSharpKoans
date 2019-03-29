@@ -57,7 +57,7 @@ module ``11: Exploring types, options, and results`` =
 
     [<Test>]
     let ``03 Basic Option example`` () =
-        getSurname "Taylor Swift" |> should equal Some
+        getSurname "Taylor Swift" |> should equal (Some "Swift")
         getSurname "Eminem" |> should equal None
 
     // the System.Int32.TryParse, System.Double.TryParse, etc functions return
@@ -76,7 +76,8 @@ module ``11: Exploring types, options, and results`` =
     let ``05 Remapping Option values`` () =
       let f n =
          match getSurname n with
-         | _ -> __ // <-- write a bunch of good match cases
+         | None -> "[no surname]" // <-- write a bunch of good match cases
+         | (Some n) -> n
       f "Anubis" |> should equal "[no surname]"
       f "Niccolo Machiavelli" |> should equal "Machiavelli"
       f "Mara Jade" |> should equal "Jade"
@@ -93,7 +94,7 @@ module ``11: Exploring types, options, and results`` =
             | _, true -> Error DivisionByZero
             | _ ->
                 // 'sqrt' is the square-root function
-                __ (sqrt n / m)
+                Ok (sqrt n / m)
         f -6.0 2.5 |> should equal NegativeNumberSupplied
         f 144.0 2.0 |> should equal (Ok 6.0)
         f 7.3 0.0 |> should equal (Error DivisionByZero)
